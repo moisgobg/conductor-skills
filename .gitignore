@@ -1,0 +1,9 @@
+.gemini/
+node_modules/
+.DS_Store
+*.log
+.env
+.idea/
+.vscode/
+dist/
+build/
