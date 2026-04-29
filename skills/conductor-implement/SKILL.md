@@ -224,3 +224,14 @@ CRITICAL: You must validate the success of every tool call. If any tool call fai
                 a. **Announce Cancellation:** Announce: "Deletion cancelled. The track has not been changed."
     *   **If user chooses "Skip":**
         *   Announce: "Okay, the completed track will remain in your tracks file for now."
+
+---
+
+## 6.0 COMPLETION AND HANDOFF
+Once the track is marked as complete and project documentation is synchronized, announce the final state.
+
+1.  **Summary:** Present a summary of the implementation (e.g., tasks completed, documentation updated).
+2.  **Proactive Suggestion:** Ask the user if they would like to perform a formal code review of the completed track right now.
+3.  **Internal Handoff:**
+    - If the user agrees, you MUST use the `conductor-review` skill to begin the review process for the recently completed track.
+    - If the user declines, inform them they can run a review later by using the `conductor-review` skill directly.

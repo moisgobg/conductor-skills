@@ -213,6 +213,10 @@ PLAN MODE PROTOCOL: Parts of this process run within Plan Mode. While in Plan Mo
 8.  **Commit Code Changes:**
     -   **Announce:** Inform the user you are committing the **Tracks Registry** changes.
     -   **Commit Changes:** Stage the **Tracks Registry** files and commit with the message `chore(conductor): Add new track '<track_description>'`.
-9.  **Announce Completion:** Inform the user:
-    > "New track '<track_id>' has been created and added to the tracks file. You can now start implementation by running `/conductor:implement`."
+9.  **Announce Completion and Handoff:**
+    - Inform the user that the new track has been successfully created and registered.
+    - **Proactive Suggestion:** Ask the user if they would like to start implementing this new track right now.
+    - **Internal Handoff:**
+        - If the user agrees, you MUST use the `conductor-implement` skill to begin implementation of the recently created track.
+        - If the user declines, inform them they can start implementation later by using the `conductor-implement` skill directly.
 
