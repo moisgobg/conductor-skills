@@ -182,52 +182,7 @@ CRITICAL: You must validate the success of every tool call. If any tool call fai
 
 ---
 
-## 5.0 TRACK CLEANUP
-**PROTOCOL: Offer to archive or delete the completed track.**
-
-1.  **Execution Trigger:** This protocol MUST only be executed after the current track has been successfully implemented and the `SYNCHRONIZE PROJECT DOCUMENTATION` step is complete.
-
-2.  **Ask for User Choice:** Immediately call the `ask_user` tool to prompt the user (do not repeat the question in the chat):
-    - **questions:**
-        - **header:** "Track Cleanup"
-        - **question:** "Track '<track_description>' is now complete. What would you like to do?"
-        - **type:** "choice"
-        - **multiSelect:** false
-        - **options:**
-            - Label: "Review", Description: "Run the review command to verify changes before finalizing."
-            - Label: "Archive", Description: "Move the track's folder to `conductor/archive/` and remove it from the tracks file."
-            - Label: "Delete", Description: "Permanently delete the track's folder and remove it from the tracks file."
-            - Label: "Skip", Description: "Do nothing and leave it in the tracks file."
-
-3.  **Handle User Response:**
-    *   **If user chooses "Review":**
-        *   Announce: "Please run `/conductor:review` to verify your changes. You will be able to archive or delete the track after the review."
-    *   **If user chooses "Archive":**
-        i.   **Create Archive Directory:** Check for the existence of `conductor/archive/`. If it does not exist, create it.
-        ii.  **Archive Track Folder:** Move the track's folder from its current location (resolved via the **Tracks Directory**) to `conductor/archive/<track_id>`.
-        iii. **Remove from Tracks File:** Read the content of the **Tracks Registry** file, remove the entire section for the completed track (the part that starts with `---` and contains the track description), and write the modified content back to the file.
-        iv.  **Commit Changes:** Stage the **Tracks Registry** file and `conductor/archive/`. Commit with the message `chore(conductor): Archive track '<track_description>'`.
-        v.   **Announce Success:** Announce: "Track '<track_description>' has been successfully archived."
-    *   **If user chooses "Delete":**
-        i. **CRITICAL WARNING:** Before proceeding, immediately call the `ask_user` tool to ask for final confirmation (do not repeat the warning in the chat):
-            - **questions:**
-                - **header:** "Confirm"
-                - **question:** "WARNING: This will permanently delete the track folder and all its contents. This action cannot be undone. Are you sure?"
-                - **type:** "yesno"
-        ii. **Handle Confirmation:**
-            - **If 'yes'**:
-                a. **Delete Track Folder:** Resolve the **Tracks Directory** and permanently delete the track's folder from `<Tracks Directory>/<track_id>`.
-                b. **Remove from Tracks File:** Read the content of the **Tracks Registry** file, remove the entire section for the completed track, and write the modified content back to the file.
-                c. **Commit Changes:** Stage the **Tracks Registry** file and the deletion of the track directory. Commit with the message `chore(conductor): Delete track '<track_description>'`.
-                d. **Announce Success:** Announce: "Track '<track_description>' has been permanently deleted."
-            - **If 'no'**:
-                a. **Announce Cancellation:** Announce: "Deletion cancelled. The track has not been changed."
-    *   **If user chooses "Skip":**
-        *   Announce: "Okay, the completed track will remain in your tracks file for now."
-
----
-
-## 6.0 COMPLETION AND HANDOFF
+## 5.0 COMPLETION AND HANDOFF
 Once the track is marked as complete and project documentation is synchronized, announce the final state.
 
 1.  **Summary:** Present a summary of the implementation (e.g., tasks completed, documentation updated).
