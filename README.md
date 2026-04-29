@@ -17,21 +17,25 @@ Conductor organizes software development into "Tracks" (features or bug fixes), 
 
 The fastest way to install Conductor Skills is using the universal bootstrapper.
 
-### Gemini CLI (Default)
+### Gemini CLI
 To install globally:
 ```bash
 curl -fsSL https://raw.githubusercontent.com/moisgobg/conductor-skills/feat/poc/install.sh | bash
+```
+To install in project:
+```bash
+curl -fsSL https://raw.githubusercontent.com/moisgobg/conductor-skills/feat/poc/install.sh | bash -s -- --project
 ```
 
 ### Antigravity
 To install locally in your current project:
 ```bash
-curl -fsSL https://raw.githubusercontent.com/moisgobg/conductor-skills/feat/poc/install.sh | bash -s -- --project --agent antigravity
+curl -fsSL https://raw.githubusercontent.com/moisgobg/conductor-skills/feat/poc/install.sh | bash -s -- --project --antigravity
 ```
 
 ### Options
 - `--project`: Installs skills into `./.agents/skills/` and rules into `./.agents/rules/`.
-- `--agent [gemini|antigravity]`: Configures platform-specific adapter rules (e.g., updating `~/.gemini/GEMINI.md` or `.agents/rules/`).
+- `--antigravity`: Configures for Antigravity specific paths (e.g., `~/.gemini/antigravity/skills/`) and creates/updates compatibility rules.
 
 ## 📁 Repository Structure
 - `/skills`: The protocol logic (`SKILL.md`) for each command.

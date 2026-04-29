@@ -5,7 +5,7 @@ set -e
 
 # Default values
 PROJECT_SCOPE=false
-AGENT="gemini"
+ANTIGRAVITY=false
 INSTALL_DIR=""
 RULES_DIR=""
 
@@ -14,16 +14,16 @@ print_usage() {
   echo "Usage: ./install.sh [options]"
   echo ""
   echo "Options:"
-  echo "  --project    Install into the current directory scope (./.agents/skills/)"
-  echo "  --agent      Target agent platform (gemini|antigravity) [default: gemini]"
-  echo "  --help       Show this help message"
+  echo "  --project        Install into the current directory scope (./.agents/skills/)"
+  echo "  --antigravity    Configure for Antigravity (correct paths and compatibility rules)"
+  echo "  --help           Show this help message"
 }
 
 # Parse arguments
 while [[ "$#" -gt 0 ]]; do
   case $1 in
     --project) PROJECT_SCOPE=true ;;
-    --agent) AGENT="$2"; shift ;;
+    --antigravity) ANTIGRAVITY=true ;;
     --help) print_usage; exit 0 ;;
     *) echo "Unknown parameter passed: $1"; print_usage; exit 1 ;;
   esac
@@ -39,17 +39,20 @@ if [ "$PROJECT_SCOPE" = true ]; then
   RULES_DIR="$(pwd)/.agents/rules"
 else
   echo "Scope: GLOBAL (~/)"
-  if [ "$AGENT" = "antigravity" ]; then
+  if [ "$ANTIGRAVITY" = true ]; then
     INSTALL_DIR="$HOME/.gemini/antigravity/skills"
     RULES_DIR="$HOME/.gemini"
   else
     INSTALL_DIR="$HOME/.agents/skills"
-    # Gemini CLI rules folder (if applicable)
     RULES_DIR="$HOME/.agents/rules"
   fi
 fi
 
-echo "Agent: ${AGENT^^}"
+if [ "$ANTIGRAVITY" = true ]; then
+  echo "Platform: ANTIGRAVITY"
+else
+  echo "Platform: GEMINI CLI (Default)"
+fi
 
 REPO_URL="https://github.com/moisgobg/conductor-skills.git"
 TEMP_REPO_PATH="$INSTALL_DIR/_temp_conductor_repo"
@@ -81,8 +84,8 @@ for skill in "$SOURCE_SKILLS_DIR"/*/; do
   cp -r "$skill" "$target_path"
 done
 
-# 5. Agent-specific configuration
-if [ "$AGENT" = "antigravity" ]; then
+# 5. Compatibility Rules (Antigravity Only)
+if [ "$ANTIGRAVITY" = true ]; then
   echo -e "\nApplying Antigravity compatibility rules..."
   mkdir -p "$RULES_DIR"
   SOURCE_RULE="$TEMP_REPO_PATH/rules/antigravity.md"
@@ -90,7 +93,6 @@ if [ "$AGENT" = "antigravity" ]; then
   if [ "$PROJECT_SCOPE" = true ]; then
     TARGET_RULE="$RULES_DIR/conductor-compatibility.md"
   else
-    # For Global Scope, we append/write to GEMINI.md as per Antigravity docs
     TARGET_RULE="$RULES_DIR/GEMINI.md"
   fi
   
@@ -107,8 +109,6 @@ if [ "$AGENT" = "antigravity" ]; then
   else
     echo "  ! Warning: Could not find $SOURCE_RULE in repository."
   fi
-elif [ "$AGENT" = "gemini" ]; then
-  echo -e "\nGemini CLI detected: Skills are natively compatible."
 fi
 
 # 6. Final Cleanup
@@ -116,5 +116,5 @@ rm -rf "$TEMP_REPO_PATH"
 
 echo -e "\n✅ Conductor installed successfully!"
 echo "Location: $INSTALL_DIR"
-echo -e "\nTo start, run:"
-echo "> 'Run conductor-setup'"
+echo -e "\nTo start, use natural language with your agent:"
+echo "> 'Let's create a new Conductor project!'"
