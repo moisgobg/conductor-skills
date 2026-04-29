@@ -13,10 +13,10 @@ CRITICAL: You must validate the success of every tool call. If any tool call fai
 ## 1.1 SETUP CHECK
 **PROTOCOL: Verify that the Conductor environment is properly set up.**
 
-1.  **Verify Core Context:** Using the **Universal File Resolution Protocol**, resolve and verify the existence of:
-    -   **Product Definition**
-    -   **Tech Stack**
-    -   **Workflow**
+1.  **Verify Core Context:** Locate and verify the existence of the following files. Check `conductor/index.md` for links, otherwise use the **Default Paths**:
+    -   **Product Definition** (Default: `conductor/product.md`)
+    -   **Tech Stack** (Default: `conductor/tech-stack.md`)
+    -   **Workflow** (Default: `conductor/workflow.md`)
 
 2.  **Handle Failure:** If ANY of these are missing (or their resolved paths do not exist), Announce: "Conductor is not set up. Please run `/conductor:setup`." and HALT.
 
@@ -81,8 +81,8 @@ CRITICAL: You must validate the success of every tool call. If any tool call fai
 3.  **Load Track Context:**
     a. **Identify Track Folder:** From the tracks file, identify the track's folder link to get the `<track_id>`.
     b. **Read Files:**
-        -   **Track Context:** Using the **Universal File Resolution Protocol**, resolve and read the **Specification** and **Implementation Plan** for the selected track.
-        -   **Workflow:** Resolve **Workflow** (via the **Universal File Resolution Protocol** using the project's index file).
+        -   **Track Context:** Resolve and read the **Specification** and **Implementation Plan** for the selected track. Check the track's `index.md` for links, otherwise use the **Default Paths** (e.g., `conductor/tracks/<track_id>/spec.md`, `conductor/tracks/<track_id>/plan.md`).
+        -   **Workflow:** Resolve **Workflow** (Check `conductor/index.md` for the link, otherwise use the Default Path: `conductor/workflow.md`).
     c. **Error Handling:** If you fail to read any of these files, you MUST stop and inform the user of the error.
     d. **Activate Relevant Skills:**
         - Check for the existence of installed skills in `.agents/skills/` (Workspace tier) and `~/.agents/extensions/conductor/skills/` (Extension tier).

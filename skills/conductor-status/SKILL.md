@@ -14,11 +14,11 @@ CRITICAL: You must validate the success of every tool call. If any tool call fai
 ## 1.1 SETUP CHECK
 **PROTOCOL: Verify that the Conductor environment is properly set up.**
 
-1.  **Verify Core Context:** Using the **Universal File Resolution Protocol**, resolve and verify the existence of:
-    -   **Tracks Registry**
-    -   **Product Definition**
-    -   **Tech Stack**
-    -   **Workflow**
+1.  **Verify Core Context:** Locate and verify the existence of the following files. Check `conductor/index.md` for links, otherwise use the **Default Paths**:
+    -   **Tracks Registry** (Default: `conductor/tracks.md`)
+    -   **Product Definition** (Default: `conductor/product.md`)
+    -   **Tech Stack** (Default: `conductor/tech-stack.md`)
+    -   **Workflow** (Default: `conductor/workflow.md`)
 
 2.  **Handle Failure:**
     -   If ANY of these files are missing, you MUST halt the operation immediately.
@@ -31,11 +31,11 @@ CRITICAL: You must validate the success of every tool call. If any tool call fai
 **PROTOCOL: Follow this sequence to provide a status overview.**
 
 ### 2.1 Read Project Plan
-1.  **Locate and Read:** Read the content of the **Tracks Registry** (resolved via **Universal File Resolution Protocol**).
+1.  **Locate and Read:** Read the content of the **Tracks Registry**. Check `conductor/index.md` for the link, otherwise use the Default Path: `conductor/tracks.md`.
 2.  **Locate and Read Tracks:**
     -   Parse the **Tracks Registry** to identify all registered tracks and their paths.
         *   **Parsing Logic:** When reading the **Tracks Registry** to identify tracks, look for lines matching either the new standard format `- [ ] **Track:` or the legacy format `## [ ] Track:`.
-    -   For each track, resolve and read its **Implementation Plan** (using **Universal File Resolution Protocol** via the track's index file).
+    -   For each track, resolve and read its **Implementation Plan**. Check the track's `index.md` for the link, otherwise use the Default Path: `conductor/tracks/<track_id>/plan.md`.
 
 ### 2.2 Parse and Summarize Plan
 1.  **Parse Content:**

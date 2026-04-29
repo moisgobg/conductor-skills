@@ -19,7 +19,7 @@ CRITICAL: You must validate the success of every tool call. If any tool call fai
 ## 1.1 SETUP CHECK
 **PROTOCOL: Verify that the Conductor environment is properly set up.**
 
-1.  **Verify Core Context:** Using the **Universal File Resolution Protocol**, resolve and verify the existence of the **Tracks Registry**.
+1.  **Verify Core Context:** Locate and verify the existence of the **Tracks Registry**. Check `conductor/index.md` for the link, otherwise use the Default Path: `conductor/tracks.md`.
 
 2.  **Verify Track Exists:** Check if the **Tracks Registry** is not empty.
 
@@ -39,7 +39,7 @@ CRITICAL: You must validate the success of every tool call. If any tool call fai
 3.  **Interaction Paths:**
 
     *   **PATH A: Direct Confirmation**
-        1.  Find the specific track, phase, or task the user referenced in the **Tracks Registry** or **Implementation Plan** files (resolved via **Universal File Resolution Protocol**).
+        1.  Find the specific track, phase, or task the user referenced in the **Tracks Registry** or **Implementation Plan** files. Resolve these files by checking `conductor/index.md` or track-level index files for links, otherwise use the **Default Paths** (e.g., `conductor/tracks.md`, `conductor/tracks/<track_id>/plan.md`).
         2.  Immediately call the `ask_user` tool to confirm the selection (do not repeat the question in the chat):
             - **questions:**
                 - **header:** "Confirm"
@@ -53,7 +53,7 @@ CRITICAL: You must validate the success of every tool call. If any tool call fai
 
     *   **PATH B: Guided Selection Menu**
         1.  **Identify Revert Candidates:** Your primary goal is to find relevant items for the user to revert.
-            *   **Scan All Plans:** You MUST read the **Tracks Registry** and every track's **Implementation Plan** (resolved via **Universal File Resolution Protocol** using the track's index file).
+            *   **Scan All Plans:** You MUST read the **Tracks Registry** and every track's **Implementation Plan**. Resolve these by checking `conductor/index.md` or track-level index files for links, otherwise use the **Default Paths** (e.g., `conductor/tracks.md`, `conductor/tracks/<track_id>/plan.md`).
             *   **Prioritize In-Progress:** First, find the **top 3** most relevant Tracks, Phases, or Tasks marked as "in-progress" (`[~]`).
             *   **Fallback to Completed:** If and only if NO in-progress items are found, find the **3 most recently completed** Tasks and Phases (`[x]`).
         2.  **Present a Unified Hierarchical Menu:** Immediately call the `ask_user` tool to present the results (do not list them in the chat first):

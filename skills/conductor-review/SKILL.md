@@ -20,12 +20,12 @@ CRITICAL: You must validate the success of every tool call. If any tool call fai
 ## 1.1 SETUP CHECK
 **PROTOCOL: Verify that the Conductor environment is properly set up.**
 
-1.  **Verify Core Context:** Using the **Universal File Resolution Protocol**, resolve and verify the existence of:
-    -   **Tracks Registry**
-    -   **Product Definition**
-    -   **Tech Stack**
-    -   **Workflow**
-    -   **Product Guidelines**
+1.  **Verify Core Context:** Locate and verify the existence of the following files. Check `conductor/index.md` for links, otherwise use the **Default Paths**:
+    -   **Tracks Registry** (Default: `conductor/tracks.md`)
+    -   **Product Definition** (Default: `conductor/product.md`)
+    -   **Tech Stack** (Default: `conductor/tech-stack.md`)
+    -   **Workflow** (Default: `conductor/workflow.md`)
+    -   **Product Guidelines** (Default: `conductor/product-guidelines.md`)
 
 2.  **Handle Failure:**
     -   If ANY of these files are missing, list the missing files, then you MUST halt the operation immediately.

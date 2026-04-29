@@ -15,10 +15,10 @@ PLAN MODE PROTOCOL: Parts of this process run within Plan Mode. While in Plan Mo
 ## 1.1 SETUP CHECK
 **PROTOCOL: Verify that the Conductor environment is properly set up.**
 
-1.  **Verify Core Context:** Using the **Universal File Resolution Protocol**, resolve and verify the existence of:
-    -   **Product Definition**
-    -   **Tech Stack**
-    -   **Workflow**
+1.  **Verify Core Context:** Locate and verify the existence of the following files. Check `conductor/index.md` for links, otherwise use the **Default Paths**:
+    -   **Product Definition** (Default: `conductor/product.md`)
+    -   **Tech Stack** (Default: `conductor/tech-stack.md`)
+    -   **Workflow** (Default: `conductor/workflow.md`)
 
 2.  **Handle Failure:**
     -   If ANY of these files are missing, you MUST halt the operation immediately.
@@ -32,7 +32,7 @@ PLAN MODE PROTOCOL: Parts of this process run within Plan Mode. While in Plan Mo
 
 ### 2.1 Get Track Description and Determine Type
 
-1.  **Load Project Context:** Read and understand the content of the project documents (**Product Definition**, **Tech Stack**, etc.) resolved via the **Universal File Resolution Protocol**. Check the **Tracks Registry** to see if any tracks already exist.
+1.  **Load Project Context:** Read and understand the project documents (Product Definition, Tech Stack, etc.). Resolve paths using `conductor/index.md` or use the **Default Paths** (`conductor/product.md`, `conductor/tech-stack.md`, etc.). Check the **Tracks Registry** (Default: `conductor/tracks.md`) to see if any tracks already exist.
 2.  **Get Track Description:**
     *   **If a description was provided by the user:**
         1. Use the provided text as the track description.
@@ -111,7 +111,7 @@ PLAN MODE PROTOCOL: Parts of this process run within Plan Mode. While in Plan Mo
 
 2.  **Generate Plan:**
     *   Read the confirmed `spec.md` content for this track.
-    *   Resolve and read the **Workflow** file (via the **Universal File Resolution Protocol** using the project's index file).
+    *   Resolve and read the **Workflow** file (Check `conductor/index.md` for the link, otherwise use the Default Path: `conductor/workflow.md`).
     *   Generate a `plan.md` with a hierarchical list of Phases, Tasks, and Sub-tasks.
     *   **CRITICAL:** The plan structure MUST adhere to the methodology in the **Workflow** file (e.g., TDD tasks for "Write Tests" and "Implement").
     *   Include status markers `[ ]` for **EVERY** task and sub-task. The format must be:
@@ -171,7 +171,7 @@ PLAN MODE PROTOCOL: Parts of this process run within Plan Mode. While in Plan Mo
 
 ### 2.5 Create Track Artifacts and Update Main Plan
 
-1.  **Check for existing track name:** Before generating a new Track ID, resolve the **Tracks Directory** using the **Universal File Resolution Protocol**. List all existing track directories in that resolved path. Extract the short names from these track IDs (e.g., ``shortname_YYYYMMDD`` -> `shortname`). If the proposed short name for the new track (derived from the initial description) matches an existing short name, halt the `newTrack` creation. Explain that a track with that name already exists and suggest choosing a different name or resuming the existing track.
+1.  **Check for existing track name:** Before generating a new Track ID, resolve the **Tracks Directory** (Check `conductor/index.md` for the link, otherwise use the Default Path: `conductor/tracks/`). List all existing track directories in that resolved path. Extract the short names from these track IDs (e.g., ``shortname_YYYYMMDD`` -> `shortname`). If the proposed short name for the new track (derived from the initial description) matches an existing short name, halt the `newTrack` creation. Explain that a track with that name already exists and suggest choosing a different name or resuming the existing track.
 2.  **Generate Track ID:** Create a unique Track ID (e.g., ``shortname_YYYYMMDD``).
 3.  **Create Directory:** Create a new directory for the tracks: `<Tracks Directory>/<track_id>/`.
 4.  **Create `metadata.json`:** Create a metadata file at `<Tracks Directory>/<track_id>/metadata.json` with content like:
@@ -201,7 +201,7 @@ PLAN MODE PROTOCOL: Parts of this process run within Plan Mode. While in Plan Mo
 
 7.  **Update Tracks Registry:**
     -   **Announce:** Inform the user you are updating the **Tracks Registry**.
-    -   **Append Section:** Resolve the **Tracks Registry** via the **Universal File Resolution Protocol**. Append a new section for the track to the end of this file. The format MUST be:
+    -   **Append Section:** Resolve the **Tracks Registry** (Check `conductor/index.md` for the link, otherwise use the Default Path: `conductor/tracks.md`). Append a new section for the track to the end of this file. The format MUST be:
         ```markdown
 
         ---
