@@ -2,7 +2,7 @@
 
 Modular AI agent skills for the **Conductor** spec-driven development framework. (Original repository: [gemini-cli-extensions/conductor](https://github.com/gemini-cli-extensions/conductor))
 
-Conductor organizes software development into "Tracks" (features or bug fixes), providing a structured lifecycle from initialization to implementation and review. These skills allow AI agents (like Gemini CLI or Antigravity/Cursor) to natively understand and execute the Conductor methodology.
+Conductor organizes software development into "Tracks" (features or bug fixes), providing a structured lifecycle from initialization to implementation and review. These skills allow AI agents (like Gemini CLI or Antigravity) to natively understand and execute the Conductor methodology.
 
 ## 🚀 Core Skills
 
@@ -30,8 +30,8 @@ curl -fsSL https://raw.githubusercontent.com/moisgobg/conductor-skills/feat/poc/
 ```
 
 ### Options
-- `--project`: Installs skills into `./.agents/skills/` instead of the global home directory.
-- `--agent [gemini|antigravity]`: Configures platform-specific adapter rules (e.g., placing `.mdc` files in `.cursor/rules/`).
+- `--project`: Installs skills into `./.agents/skills/` and rules into `./.agents/rules/`.
+- `--agent [gemini|antigravity]`: Configures platform-specific adapter rules (e.g., updating `~/.gemini/GEMINI.md` or `.agents/rules/`).
 
 ## 📁 Repository Structure
 - `/skills`: The protocol logic (`SKILL.md`) for each command.

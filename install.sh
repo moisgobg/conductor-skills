@@ -36,11 +36,17 @@ echo "🚂 Welcome to the Conductor Bootstrapper!"
 if [ "$PROJECT_SCOPE" = true ]; then
   echo "Scope: PROJECT (./)"
   INSTALL_DIR="$(pwd)/.agents/skills"
-  RULES_DIR="$(pwd)/.cursor/rules"
+  RULES_DIR="$(pwd)/.agents/rules"
 else
   echo "Scope: GLOBAL (~/)"
-  INSTALL_DIR="$HOME/.agents/skills"
-  RULES_DIR="$HOME/.cursor/rules"
+  if [ "$AGENT" = "antigravity" ]; then
+    INSTALL_DIR="$HOME/.gemini/antigravity/skills"
+    RULES_DIR="$HOME/.gemini"
+  else
+    INSTALL_DIR="$HOME/.agents/skills"
+    # Gemini CLI rules folder (if applicable)
+    RULES_DIR="$HOME/.agents/rules"
+  fi
 fi
 
 echo "Agent: ${AGENT^^}"
@@ -80,11 +86,24 @@ if [ "$AGENT" = "antigravity" ]; then
   echo -e "\nApplying Antigravity compatibility rules..."
   mkdir -p "$RULES_DIR"
   SOURCE_RULE="$TEMP_REPO_PATH/rules/antigravity.md"
-  TARGET_RULE="$RULES_DIR/conductor-compatibility.mdc"
+  
+  if [ "$PROJECT_SCOPE" = true ]; then
+    TARGET_RULE="$RULES_DIR/conductor-compatibility.md"
+  else
+    # For Global Scope, we append/write to GEMINI.md as per Antigravity docs
+    TARGET_RULE="$RULES_DIR/GEMINI.md"
+  fi
   
   if [ -f "$SOURCE_RULE" ]; then
-    cp "$SOURCE_RULE" "$TARGET_RULE"
-    echo "  - Installed adapter rule to $TARGET_RULE"
+    if [ "$PROJECT_SCOPE" = true ]; then
+      cp "$SOURCE_RULE" "$TARGET_RULE"
+      echo "  - Installed adapter rule to $TARGET_RULE"
+    else
+      # Append to GEMINI.md if it exists, or create it
+      echo -e "\n" >> "$TARGET_RULE" 2>/dev/null || true
+      cat "$SOURCE_RULE" >> "$TARGET_RULE"
+      echo "  - Added adapter rule to $TARGET_RULE"
+    fi
   else
     echo "  ! Warning: Could not find $SOURCE_RULE in repository."
   fi
