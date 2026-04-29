@@ -15,35 +15,41 @@ def run_command(command):
         print(f"Installation failed: {e.stderr.decode() if e.stderr else e}", file=sys.stderr)
         sys.exit(1)
 
-def install_conductor(use_local):
+def install_conductor(use_local, target_agent):
     print("🚂 Welcome to the Conductor Bootstrapper!")
     
+    home_dir = os.path.expanduser("~")
+    
+    # 1. Determine Paths
     if use_local:
-        install_dir = os.path.abspath(".agents/skills")
-        print("Installing Conductor into PROJECT scope (./.agents/skills/)...")
+        print("Scope: PROJECT (./)")
+        skills_dir = os.path.abspath(".agents/skills")
+        rules_dir = os.path.abspath(".cursor/rules")
     else:
-        home_dir = os.path.expanduser("~")
-        install_dir = os.path.join(home_dir, ".agents", "skills")
-        print("Installing Conductor into GLOBAL scope (~/.agents/skills/)...")
+        print("Scope: GLOBAL (~/)")
+        skills_dir = os.path.join(home_dir, ".agents", "skills")
+        rules_dir = os.path.join(home_dir, ".cursor", "rules")
 
-    temp_repo_path = os.path.join(install_dir, "_temp_conductor_repo")
+    print(f"Agent: {target_agent.upper()}")
+
+    temp_repo_path = os.path.join(skills_dir, "_temp_conductor_repo")
     repo_url = "https://github.com/moisgobg/conductor-skills.git"
 
-    # 1. Clean up
+    # 2. Cleanup & Prep
     if os.path.exists(temp_repo_path):
         shutil.rmtree(temp_repo_path)
-    os.makedirs(install_dir, exist_ok=True)
+    os.makedirs(skills_dir, exist_ok=True)
 
-    # 2. Shallow Clone
+    # 3. Download
     print(f"Downloading framework from {repo_url}...")
     run_command(f"git clone --depth 1 {repo_url} {temp_repo_path}")
 
-    # 3. Install Skills
+    # 4. Install Core Skills
     source_skills_dir = os.path.join(temp_repo_path, "skills")
     print("\nCopying core skills:")
     for skill_folder in os.listdir(source_skills_dir):
         source_path = os.path.join(source_skills_dir, skill_folder)
-        target_path = os.path.join(install_dir, skill_folder)
+        target_path = os.path.join(skills_dir, skill_folder)
         
         if os.path.isdir(source_path):
             if os.path.exists(target_path):
@@ -53,16 +59,34 @@ def install_conductor(use_local):
                 print(f"  - Installing {skill_folder}...")
             shutil.copytree(source_path, target_path)
 
-    # 4. Cleanup
+    # 5. Agent-specific configuration
+    if target_agent == "antigravity":
+        print("\nApplying Antigravity compatibility rules...")
+        os.makedirs(rules_dir, exist_ok=True)
+        source_rule = os.path.join(temp_repo_path, "rules", "antigravity.md")
+        target_rule = os.path.join(rules_dir, "conductor-compatibility.mdc")
+        
+        if os.path.exists(source_rule):
+            shutil.copy2(source_rule, target_rule)
+            print(f"  - Installed adapter rule to {target_rule}")
+        else:
+            print(f"  ! Warning: Could not find {source_rule} in repository.")
+    
+    elif target_agent == "gemini":
+        print("\nGemini CLI detected: Skills are natively compatible.")
+
+    # 6. Final Cleanup
     shutil.rmtree(temp_repo_path)
     
-    print(f"\n✅ Conductor Core Skills installed successfully in {'local project' if use_local else 'global'} environment!")
-    print("\nTo initialize a project, navigate to your root and ask your Agent:")
+    print(f"\n✅ Conductor installed successfully!")
+    print(f"Location: {skills_dir}")
+    print("\nTo start, run:")
     print("> 'Run conductor-setup'")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Conductor Framework Bootstrapper")
-    parser.add_argument("--project", action="store_true", help="Install into the current project directory (./.agents/skills/)")
+    parser.add_argument("--project", action="store_true", help="Install into the current directory scope")
+    parser.add_argument("--agent", choices=["gemini", "antigravity"], default="gemini", help="Target agent platform")
     
     args = parser.parse_args()
-    install_conductor(args.project)
+    install_conductor(args.project, args.agent)
