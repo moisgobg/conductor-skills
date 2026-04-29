@@ -33,14 +33,12 @@ PLAN MODE PROTOCOL: Parts of this process run within Plan Mode. While in Plan Mo
 ### 2.1 Get Track Description and Determine Type
 
 1.  **Load Project Context:** Read and understand the content of the project documents (**Product Definition**, **Tech Stack**, etc.) resolved via the **Universal File Resolution Protocol**. Check the **Tracks Registry** to see if any tracks already exist.
-2.  **Get Track Description & Enter Plan Mode:**
-    *   **If `{{args}}` contains a description:**
-        1. Use the content of `{{args}}` as the track description.
-        2. Call the `enter_plan_mode` tool with the reason: "Defining new track".
-    *   **If `{{args}}` is empty:**
-        1. Call the `enter_plan_mode` tool with the reason: "Defining new track".
-        2. **Propose Initial Track (Conditional):** If the **Tracks Registry** is empty (meaning this is the first track), analyze the **Product Definition** and propose a single, actionable MVP track description (e.g., "Build core tip calculator functionality").
-        3. Ask the user using the `ask_user` tool (do not repeat the question in the chat). If proposing an initial track, pre-fill it in the placeholder or ask them to confirm it.
+2.  **Get Track Description:**
+    *   **If a description was provided by the user:**
+        1. Use the provided text as the track description.
+    *   **If no description was provided:**
+        1. **Propose Initial Track (Conditional):** If the **Tracks Registry** is empty (meaning this is the first track), analyze the **Product Definition** and propose a single, actionable MVP track description (e.g., "Build core tip calculator functionality").
+        2. Ask the user using the `ask_user` tool (do not repeat the question in the chat). If proposing an initial track, pre-fill it in the placeholder or ask them to confirm it.
             - **questions:**
                 - **header:** "Description"
                 - **type:** "text"
@@ -199,7 +197,7 @@ PLAN MODE PROTOCOL: Parts of this process run within Plan Mode. While in Plan Mo
         - [Implementation Plan](./plan.md)
         - [Metadata](./metadata.json)
         ```
-6.  **Exit Plan Mode:** Call the `exit_plan_mode` tool with the path: `<Tracks Directory>/<track_id>/index.md`.
+6.  **Finalize Artifacts:** Ensure all files are written and the track directory is properly structured.
 
 7.  **Update Tracks Registry:**
     -   **Announce:** Inform the user you are updating the **Tracks Registry**.

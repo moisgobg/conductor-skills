@@ -39,8 +39,8 @@ CRITICAL: You must validate the success of every tool call. If any tool call fai
 
 ### 2.1 Identify Scope
 1.  **Check for User Input:**
-    -   The user provided the following arguments: `{{args}}`.
-    -   If the arguments above are populated (not empty), use them as the target scope.
+    -   Check if the user provided specific arguments or a track name for the review.
+    -   If arguments were provided, use them as the target scope.
 2.  **Auto-Detect Scope:**
     -   If no input, read the **Tracks Registry**.
     -   Look for a track marked as `[~] In Progress`.

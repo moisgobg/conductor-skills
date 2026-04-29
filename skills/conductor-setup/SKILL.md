@@ -24,12 +24,10 @@ PLAN MODE PROTOCOL: This setup process runs entirely within Plan Mode. While in 
 
 ---
 
-## 1.2 PROJECT AUDIT
+### 1.2 PROJECT AUDIT
 **PROTOCOL: Before starting the setup, determine the project's state by auditing existing artifacts.**
 
-1.  **Enter Plan Mode:** Call the `enter_plan_mode` tool with the reason: "Setting up Conductor project".
-
-2.  **Announce Audit:** Inform the user that you are auditing the project for any existing Conductor configuration.
+1.  **Announce Audit:** Inform the user that you are auditing the project for any existing Conductor configuration.
 
 3.  **Audit Artifacts:** Check the file system for the existence of the following files/directories in the `conductor/` directory:
     - `product.md`
